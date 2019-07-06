@@ -1,0 +1,84 @@
+{
+  "nodes": [
+    {
+      "name": "sina",
+      "value":90
+    },
+    {
+      "name": "baidu",
+      "value":190
+    },
+    {
+      "name": "alibaba"
+    },
+    {
+      "name": "163"
+    },
+    {
+      "name": "apple"
+    },
+    {
+      "name": "google"
+    },
+    {
+      "name": "ms"
+    }
+  ],
+  "links": [
+    {
+      "source": "baidu",
+      "target": "alibaba",
+      "value": 21
+    },
+    {
+      "source": "baidu",
+      "target": "sina",
+      "value": 11
+    },
+    {
+      "source": "baidu",
+      "target": "163",
+      "value": 119
+    },
+    {
+      "source": "baidu",
+      "target": "apple",
+      "value": 111
+    },
+    {
+      "source": "alibaba",
+      "target": "apple",
+      "value": 31
+    },
+    {
+      "source": "alibaba",
+      "target": "sina",
+      "value": 81
+    },
+    {
+      "source": "163",
+      "target": "sina",
+      "value": 78
+    },
+    {
+      "source": "alibaba",
+      "target": "ms",
+      "value": 61
+    },
+    {
+      "source": "apple",
+      "target": "ms",
+      "value": 121
+    },
+    {
+      "source": "ms",
+      "target": "google",
+      "value": 51
+    },
+    {
+      "source": "apple",
+      "target": "google",
+      "value": 221
+    }
+  ]
+}

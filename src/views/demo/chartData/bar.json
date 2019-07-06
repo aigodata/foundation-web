@@ -1,0 +1,9 @@
+[
+  { "name": "域名解析", "value": 2 },
+  { "name": "可用性", "value": 6 },
+  { "name": "内容变更", "value": 4 },
+  { "name": "http请求", "value": 2 },
+  { "name": "网站挂马", "value": 2 },
+  { "name": "网站黑链", "value": 2 },
+  { "name": "违规内容", "value": 2 }
+]

@@ -1,0 +1,12 @@
+/*
+ * 响应式
+ */
+
+@media screen and (max-width: 3840px) {
+}
+
+@media screen and (max-width: 1250px) {
+  .app-container {
+    overflow-x: scroll;
+  }
+}

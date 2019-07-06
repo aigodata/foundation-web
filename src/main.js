@@ -4,13 +4,14 @@ import axios from 'axios'
 import moment from 'moment'
 import localStore from 'store'									// 浏览器存储
 import store from './store' 									  // vuex
+import './registerServiceWorker'								// pwa
 import router from './router'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import validator from './lib/validator'
 import Filter from './plugin/filter'
-import Request from './plugin/request'
+import Request from './lib/request'
 import Components from './components'
 
 import '@/assets/styles/reset.css'							// 重置样式

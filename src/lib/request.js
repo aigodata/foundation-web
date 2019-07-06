@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { is } from '../lib/util'
+import { is } from './util'
 
 /**
  * 统一拦截错误码

@@ -11,25 +11,29 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@antv/g2": "^3.5.7",
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
     "crypto-js": "^3.1.9-1",
-    "@antv/g2": "^3.5.3",
-    "@antv/g6": "^3.0.4",
+    "d3": "^5.9.7",
     "echarts": "^4.2.1",
     "element-resize-detector": "^1.1.14",
-    "element-ui": "^2.9.2",
+    "element-ui": "^2.10.0",
     "moment": "^2.22.2",
     "node-sass": "^4.9.3",
     "numeral": "^2.0.6",
+    "register-service-worker": "^1.6.2",
     "store": "^2.0.12",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.7.0",
-    "@vue/cli-service": "^3.7.0",
+    "@vue/cli-plugin-babel": "^3.9.0",
+    "@vue/cli-plugin-pwa": "^3.9.0",
+    "@vue/cli-service": "^3.9.0",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.1.0",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-compress": "^2.0.0",
@@ -43,7 +47,7 @@
     "koa-static": "^3.0.0",
     "koa2-history-api-fallback": "0.0.5",
     "nodemon": "^1.11.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
     "plugins": {
@@ -52,7 +56,6 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "last 2 versions"
   ]
 }

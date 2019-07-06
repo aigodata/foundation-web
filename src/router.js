@@ -38,19 +38,26 @@ const sys_organization_manage = resolve => require(['@/views/sys_manage/sys_orga
 // 用户管理
 const sys_user = resolve => require(['@/views/sys_manage/sys_user.vue'], resolve);
 
+/**
+ * 系统日志 sys_log --------------------
+ */
+// 操作日志
+const sys_log_operate = resolve => require(['@/views/sys_log/sys_log_operate.vue'], resolve);
+// 登录日志
+const sys_log_login = resolve => require(['@/views/sys_log/sys_log_login.vue'], resolve);
+// 运行日志
+const sys_log_running = resolve => require(['@/views/sys_log/sys_log_running.vue'], resolve);
+
 const router = new Router({
 	routes: [
 		{
 			path: '/', redirect: '/login', name: '/'
 		},
 		{
-			path: '/main',
-			name: 'main',
-			component: main,
+			path: '/main', name: 'main', component: main,
 			children: [
 				{
-					path: '/',
-					redirect: 'dashboard',
+					path: '/', redirect: 'dashboard',
 				},
 				{
 					path: "dashboard", name: "dashboard", component: dashboard, meta: {name: '仪表盘'},

@@ -2,8 +2,8 @@
  * 前端服务器
  */
 
-var path = require('path');
-var conf = require('../config/dev.env');
+let path = require('path');
+let conf = require('./config/dev.env');
 const Koa = require('koa');
 const etag = require('koa-etag');
 const serve = require('koa-static');

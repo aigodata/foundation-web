@@ -34,11 +34,21 @@
 
         npm install 或者 cnpm install
         
- 
 
  4. 执行构建并启动服务
 
         npm start   |  npm run serve
+        
+### 默认登录的用户名密码
+
+    admin  aigo@2019
+
+### 数据库信息
+
+    222.169.219.186:30032
+    数据库：foundation
+    用户名：root
+    密码：aigo@2019
 
 ### 项目介绍
 

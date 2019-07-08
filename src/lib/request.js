@@ -19,10 +19,10 @@ let parseStatusCode = (vm, data, status) => {
 	else if (status === 403) {
 		// @特殊处理 阻止到登录页面之前, 需要记录最后的访问页面
 		if (vm.$route.fullPath !== '/login') {
-			vm.localStore.set("before_403_path", vm.$route.fullPath);
+			vm.$localStore.set("before_403_path", vm.$route.fullPath);
 		}
-		vm.localStore.remove("user");
-		vm.localStore.remove("permission");
+		vm.$localStore.remove("user");
+		vm.$localStore.remove("permission");
 		vm.$router.push('/login');
 		throw new Error(status);
 	}
@@ -163,7 +163,7 @@ export default {
 				if (is(String, requestInfo)) {
 					requestInfo = [requestInfo]
 				}
-				const config = Object.assign({}, {method: 'get'}, requestInfo[1])
+				const config = Object.assign({}, {method: 'post'}, requestInfo[1])
 				const url = requestInfo[0]
 				return this.$request(url, config, true)
 			}))

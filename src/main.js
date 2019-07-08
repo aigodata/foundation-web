@@ -5,6 +5,7 @@ import moment from 'moment'
 import localStore from 'store'									// 浏览器存储
 import store from './store' 									  // vuex
 import './registerServiceWorker'								// pwa
+import appConfig from '../app.config'						// 系统全局配置
 import router from './router'
 import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
@@ -28,12 +29,14 @@ Vue.use(Components);
 
 // Vue.use(ElementUI, { size: 'small'}); // size用于改变组件的默认尺寸，zIndex设置弹框的初始 z-index（默认值:2000）
 
+// 系统全局配置
+Vue.prototype.$config = appConfig;
 // 添加实例方法, 使用基于Promise的HTTP请求插件
 Vue.prototype.$axios = axios;
 // 添加实例方法, 使用本地存储插件
-Vue.prototype.localStore = localStore;
+Vue.prototype.$localStore = localStore;
 // 添加日期工具
-Vue.prototype.moment = moment;
+Vue.prototype.$moment = moment;
 //添加实例方法,所有公共校验准则
 Vue.prototype.$validator = validator;
 

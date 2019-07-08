@@ -93,18 +93,18 @@
             this.$post("/action", {
               data: {
                 "select": "sys_role",
-                "join": ["sys_permission_ship", "sys_permission"],
+                "join": ["sys_role_permission", "sys_permission"],
                 "where": "id=" + data.roleId,
               }
             }).then(per => {
               if (Array.isArray(per) && per.length > 0) {
-                this.$store.commit("permission", per[0].sys_permission_ship);
+                this.$store.commit("permission", per[0].sys_role_permission);
 
                 // @特殊处理 session失效被阻止到登录页面, 需要返回最后的访问页面
-                let before403Path = this.localStore.get("before_403_path");
+                let before403Path = this.$localStore.get("before_403_path");
                 if (before403Path) {
                   this.$router.push(before403Path);
-                  this.localStore.remove("before_403_path");
+                  this.$localStore.remove("before_403_path");
                 } else {
                   this.$router.push('/main');
                 }

@@ -372,8 +372,8 @@
           // 请求
           this.$post('/logout').then((data) => {
             if (data === true) {
-              this.localStore.remove("user");
-              this.localStore.remove("permission");
+              this.$localStore.remove("user");
+              this.$localStore.remove("permission");
               this.$router.push('/login');
             }
           })

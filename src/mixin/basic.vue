@@ -26,8 +26,8 @@
     methods: {
       // 清除
       __clear() {
-        this.localStore.remove("user");
-        this.localStore.remove("permission");
+        this.$localStore.remove("user");
+        this.$localStore.remove("permission");
         this.$router.push('/login');
       },
       // 判断session是否过期

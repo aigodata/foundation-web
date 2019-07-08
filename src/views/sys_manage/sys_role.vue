@@ -344,7 +344,7 @@
         } else {
           this.filterPermissionList(modules);
         }
-        let ids = row.sys_permission_ship.map(v => v.sys_permission.id);
+        let ids = row.sys_role_permission.map(v => v.sys_permission.id);
         for (let k in this.editForm) {
           if (k === 'permissionIds') {
             //  设置权限列表选中
@@ -407,7 +407,7 @@
                 "where": 'id=' + ids
               },
               {
-                "delete": "sys_permission_ship",
+                "delete": "sys_role_permission",
                 "where": ["data_id=" + ids, "type=2"] // 按角色分配
               }
             ]
@@ -460,7 +460,7 @@
         this.$post('/action', {
           data: {
             "select": this.tableName,
-            "join": ["sys_permission_ship", "sys_permission"],
+            "join": ["sys_role_permission", "sys_permission"],
             "limit": [(this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize],
             "where": this.where,
             "order": this.order

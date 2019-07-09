@@ -7,13 +7,14 @@ import store from './store' 									  // vuex
 import './registerServiceWorker'								// pwa
 import appConfig from '../app.config'						// 系统全局配置
 import router from './router'
-import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import validator from './lib/validator'
 import Filter from './plugin/filter'
 import Request from './lib/request'
 import Components from './components'
+
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import '@/assets/styles/reset.css'							// 重置样式
 import '@/assets/styles/media.css'							// 媒体查询

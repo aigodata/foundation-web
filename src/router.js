@@ -4,13 +4,6 @@ import Router from 'vue-router'
 
 Vue.use(Router);
 
-// test 测试页面
-import Demo from './views/demo'
-import DemoFilter from './views/demo/filter'
-import DemoRequest from './views/demo/request'
-import DemoChart from './views/demo/chart'
-import DemoDialog from './views/demo/dialog'
-
 // 根页面
 import main from '@/views/main.vue'
 import empty from '@/views/empty.vue'
@@ -116,31 +109,13 @@ const router = new Router({
 		},
 		{
 			path: '/500', name: 'page-500', component: page500
-		},
-		{
-			path: '/demo', name: 'demo', component: Demo,
-			children: [
-				{
-					path: 'filter', name: 'demo.filter', component: DemoFilter
-				},
-				{
-					path: 'request', name: 'demo.request', component: DemoRequest
-				},
-				{
-					path: 'chart', name: 'demo.chart', component: DemoChart
-				},
-				{
-					path: 'dialog', name: 'demo.dialog', component: DemoDialog
-				},
-			]
 		}
 	]
 });
 
 // 被忽略的路由地址
 const ignore = [
-	'/', 'login', 'page-404', 'page-403', 'page-500',
-	'demo', 'demo.filter', 'demo.request', 'demo.chart', 'demo.dialog',
+	'/', 'login', 'page-404', 'page-403', 'page-500'
 ]
 
 /**

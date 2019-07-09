@@ -5,8 +5,8 @@
 @media screen and (max-width: 3840px) {
 }
 
-@media screen and (max-width: 1250px) {
-  .app-container {
+@media screen and (max-width: 1350px) {
+  #app .app-container {
     overflow-x: scroll;
   }
 }

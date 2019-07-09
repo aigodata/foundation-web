@@ -143,16 +143,3 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
-.clear {
-  background: none;
-  border: 0;
-  clear: both;
-  display: block;
-  font-size: 0;
-  float: none;
-  height: 0;
-  width: 0;
-  overflow: hidden;
-  visibility: hidden;
-}

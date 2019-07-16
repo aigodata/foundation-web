@@ -5,18 +5,18 @@ module.exports = {
 	/**
 	 *	页面配置
 	 */
-	menu: {
-		"key": "main",
+	pages: {
+		"path": "main",
 		"name": "主页面",
 		"children": [
 			{
-				"key": "page1",
+				"path": "page1",
 				"name": "页面1",
 				"permission": ["insert", "update", "delete", "select", "export", "import"],
 				"template": "empty"
 			},
 			{
-				"key": "page1",
+				"path": "page2",
 				"name": "页面1",
 				"permission": ["insert", "update", "delete", "select", "export", "import"],
 				"template": "empty"

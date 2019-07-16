@@ -1,13 +1,13 @@
 <template>
-  <!-- {{ name }} -->
-  <div class="{{ key }}">
-    {{ name }}
+  <!-- 页面1 -->
+  <div class="page2">
+    页面1
   </div>
 </template>
 
 <script>
   export default {
-    name: '{{ key }}',
+    name: 'page2',
     computed: {
     },
     data() {
@@ -25,7 +25,7 @@
 </script>
 
 <style>
-  .{{ key }} {
+  .page2 {
     height: 100%;
     position: relative;
   }

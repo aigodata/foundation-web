@@ -7,7 +7,11 @@ const template = require('art-template')						// 模板引擎 https://aui.github
 // let tpl = path.resolve(__dirname, './tpl')
 
 // let empty = fs.readFileSync(tpl + '/empty.tpl')
+// 初始页面模板
 let emptyTpl = path.resolve(__dirname, './init/tpl/empty.tpl')
+// 路由模板
+let routerTpl = path.resolve(__dirname, './init/tpl/router.tpl')
+let routerPath = path.resolve(__dirname, '../src/router2.js')
 
 /**
  * 删除目录下所有文件夹和文件
@@ -37,14 +41,14 @@ let deleteAll = (absolutePath) => {
 
 /**
  * 递归遍历页面树
- * @param arr    页面数组
+ * @param pages 页面清单
  * @param absolutePath  绝对路径
  */
-let recursive = (arr, absolutePath) => {
-	if (arr && arr.length > 0) {
-		arr.forEach(d => {
+let recursivePage = (pages, absolutePath) => {
+	if (pages && pages.length > 0) {
+		pages.forEach(d => {
 			// 目录-------------------------
-			let directory = absolutePath + '/' + d.path
+			let directory = absolutePath + '/' + d.name
 			// 判断目录是否存在
 			let exists = fs.existsSync(directory)
 			// 存在递归删除目录及下属文件和文件夹
@@ -55,7 +59,7 @@ let recursive = (arr, absolutePath) => {
 			fs.mkdirSync(directory)
 
 			// 文件-------------------------
-			let file = absolutePath + '/' + d.path + '/' + d.path + '.vue'
+			let file = absolutePath + '/' + d.name + '/' + d.name + '.vue'
 			// 判断文件是否存在
 			exists = fs.existsSync(file)
 			// 存在删除文件
@@ -63,23 +67,68 @@ let recursive = (arr, absolutePath) => {
 				fs.unlinkSync(file)
 			}
 			// 渲染模板
-			const html = template(emptyTpl, {
-				key: d.path,
-				name: d.name
-			});
+			const html = template(emptyTpl, d);
 			// 新增文件
 			fs.writeFileSync(file, html)
 
 			// 递归-------------------------
-			recursive(d.children, directory)
-
+			recursivePage(d.children, directory)
 		})
 	}
 }
 
+/**
+ * 递归构建路由
+ * @param pages 页面清单
+ * @param relativePath  相对路径
+ * @param display 注释 不断累积
+ * @param addressList 路由地址
+ */
+let recursiveRouter = (pages, relativePath, display, addressList) => {
+	if (pages && pages.length > 0) {
+		pages.forEach(d => {
+			// 目录
+			let directory = relativePath + '/' + d.name
+			// 注释
+			d.display = (display ? display  + ' | ' : '') + d.display
+			// 相对路径
+			d.path = directory + '/' + d.name + '.vue'
+			// 存储
+			addressList.push({
+				lazy: true,
+				...d
+			})
+			// 递归
+			recursiveRouter(d.children, directory, d.display, addressList)
+		})
+	}
+}
+
+/**
+ * 生成路由表
+ * @param pages 页面清单
+ * @param relativePath 相对路径
+ */
+let generateRouter = (pages, relativePath) => {
+	pages = JSON.parse(JSON.stringify(pages))
+	// 路由地址
+	let addressList = []
+	recursiveRouter(pages, relativePath, '', addressList)
+	// 渲染模板
+	const html = template(routerTpl, {
+		addressList: addressList
+	});
+	// 新增文件
+	fs.writeFileSync(routerPath, html)
+}
+
 let pages = config.pages.children
 let absolutePath = path.resolve(__dirname, '../src/views')
-recursive(pages, absolutePath)
+recursivePage(pages, absolutePath)
+
+generateRouter(pages, '@/views')
+
+
 
 // // 新增目录
 // let directory = viewsDirectory  + '/' +  'page'

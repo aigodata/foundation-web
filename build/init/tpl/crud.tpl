@@ -1,13 +1,13 @@
 <template>
-  <!-- ${name} -->
-  <div class="${key}">
-    ${name}
+  <!-- {{ display }} -->
+  <div class="{{ name }}">
+    {{ display }}
   </div>
 </template>
 
 <script>
   export default {
-    name: '${key}',
+    name: '{{ name }}',
     computed: {
     },
     data() {
@@ -25,7 +25,7 @@
 </script>
 
 <style>
-  ${key} {
+  .{{ name }} {
     height: 100%;
     position: relative;
   }

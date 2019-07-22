@@ -1,7 +1,6 @@
 {
-  "name": "financial-budget-web",
+  "name": "foundation-web",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "mock": "./node_modules/.bin/nodemon mock/server.js",
     "server": "./node_modules/.bin/nodemon server/server.js",

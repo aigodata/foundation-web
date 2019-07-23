@@ -1,121 +1,212 @@
 import Vue from 'vue'
 import store from './store'
 import Router from 'vue-router'
+import appConfig from '../app.config'						// 系统全局配置
 
 Vue.use(Router);
 
-// 根页面
-import main from '@/views/main.vue'
-import empty from '@/views/empty.vue'
+/**
+ * 空路由页面, 为了调整路由层级结构承上启下的过渡页面
+ */
+import empty_route from '@/views/empty_route.vue'
 
+/**
+ * 动态生成路由地址
+ */
+ 
 // 登录
-const login = resolve => require(['@/views/login/login.vue'], resolve);
-
-// 错误页面
-const page404 = resolve => require(['@/views/common/page-404.vue'], resolve);
-const page403 = resolve => require(['@/views/common/page-403.vue'], resolve);
-const page500 = resolve => require(['@/views/common/page-500.vue'], resolve);
+const login = () => import('@/views/login/login.vue')
+  
+// 页面不存在
+const exception_404 = () => import('@/views/exception/exception_404.vue')
+  
+// 无访问权限
+const exception_403 = () => import('@/views/exception/exception_403.vue')
+  
+// 服务器错误
+const exception_500 = () => import('@/views/exception/exception_500.vue')
+  
+// 主页面
+import main from '@/views/main.vue'
+  
+// 主页面 | 仪表盘
+const dashboard = () => import('@/views/dashboard/dashboard.vue')
+  
+// 主页面 | 页面1
+const page1 = () => import('@/views/page1/page1.vue')
+  
+// 主页面 | 页面1 | 页面1_1
+const page1_1 = () => import('@/views/page1/page1_1/page1_1.vue')
+  
+// 主页面 | 页面1 | 页面1_2 | 页面1_2_1
+const page1_2_1 = () => import('@/views/page1/page1_2/page1_2_1/page1_2_1.vue')
+  
+// 主页面 | 页面1 | 页面1_2 | 页面1_2_2 | 页面1_2_2_1
+const page1_2_2_1 = () => import('@/views/page1/page1_2/page1_2_2/page1_2_2_1/page1_2_2_1.vue')
+  
+// 主页面 | 页面1 | 页面1_2 | 页面1_2_2 | 页面1_2_2_2
+const page1_2_2_2 = () => import('@/views/page1/page1_2/page1_2_2/page1_2_2_2/page1_2_2_2.vue')
+  
+// 主页面 | 页面2
+const page2 = () => import('@/views/page2/page2.vue')
+ 
 
 /**
- * 仪表盘 dashboard --------------------
+ * 动态生成路由表
  */
-const dashboard = resolve => require(['@/views/dashboard/dashboard.vue'], resolve);
-
-/**
- * 系统管理 sys_manage --------------------
- */
-// 角色管理
-const sys_role = resolve => require(['@/views/sys_manage/sys_role.vue'], resolve);
-// 组织机构管理
-const sys_organization_manage = resolve => require(['@/views/sys_manage/sys_organization_manage.vue'], resolve);
-// 用户管理
-const sys_user = resolve => require(['@/views/sys_manage/sys_user.vue'], resolve);
-
-/**
- * 系统日志 sys_log --------------------
- */
-// 操作日志
-const sys_log_operate = resolve => require(['@/views/sys_log/sys_log_operate.vue'], resolve);
-// 登录日志
-const sys_log_login = resolve => require(['@/views/sys_log/sys_log_login.vue'], resolve);
-// 运行日志
-const sys_log_running = resolve => require(['@/views/sys_log/sys_log_running.vue'], resolve);
-
 const router = new Router({
-	routes: [
-		{
-			path: '/', redirect: '/login', name: '/'
-		},
-		{
-			path: '/main', name: 'main', component: main,
-			children: [
-				{
-					path: '/', redirect: 'dashboard',
-				},
-				{
-					path: "dashboard", name: "dashboard", component: dashboard, meta: {name: '仪表盘'},
-				},
-				{
-					path: 'sys_manage', name: 'sys_manage', component: empty, meta: {name: '系统管理'},
-					children: [
-						{
-							path: '/',
-							redirect: 'sys_user',
-						},
-						{
-							path: 'sys_user', name: 'sys_user', component: sys_user, meta: {name: '用户管理'},
-						},
-						{
-							path: 'sys_role', name: 'sys_role', component: sys_role, meta: {name: '角色管理'},
-						},
-						{
-							path: 'sys_organization_manage',
-							name: 'sys_organization_manage',
-							component: sys_organization_manage,
-							meta: {name: '组织机构管理'},
-						},
-					]
-				},
-				{
-					path: "sys_log", name: "sys_log", component: empty, meta: {name: '系统日志'},
-					children: [
-						{
-							path: '/', redirect: 'sys_log_operate'
-						},
-						{
-							path: "sys_log_operate", name: "sys_log_operate", component: sys_log_operate, meta: {name: "操作日志"}
-						},
-						{
-							path: "sys_log_login", name: "sys_log_login", component: sys_log_login, meta: {name: "登录日志"}
-						},
-						{
-							path: "sys_log_running", name: "sys_log_running", component: sys_log_running, meta: {name: "运行日志"}
-						}
-					]
-				}
-			]
-		},
-		{
-			path: '*', component: page404
-		},
-		{
-			path: '/login', name: 'login', component: login
-		},
-		{
-			path: '/404', name: 'page-404', component: page404
-		},
-		{
-			path: '/403', name: 'page-403', component: page403
-		},
-		{
-			path: '/500', name: 'page-500', component: page500
-		}
-	]
+  "routes": [
+    {
+      "path": "/",
+      "redirect": "/login",
+      "name": "/"
+    },
+    {
+      "path": "*",
+      "component": exception_404
+    },
+    {
+      "path": "/login",
+      "name": "login",
+      "component": login,
+      "meta": {
+        "name": "登录"
+      }
+    },
+    {
+      "path": "/exception_404",
+      "name": "exception_404",
+      "component": exception_404,
+      "meta": {
+        "name": "页面不存在"
+      }
+    },
+    {
+      "path": "/exception_403",
+      "name": "exception_403",
+      "component": exception_403,
+      "meta": {
+        "name": "无访问权限"
+      }
+    },
+    {
+      "path": "/exception_500",
+      "name": "exception_500",
+      "component": exception_500,
+      "meta": {
+        "name": "服务器错误"
+      }
+    },
+    {
+      "path": "/main",
+      "name": "main",
+      "component": main,
+      "meta": {
+        "name": "主页面"
+      },
+      "children": [
+        {
+          "path": "/",
+          "redirect": "dashboard"
+        },
+        {
+          "path": "dashboard",
+          "name": "dashboard",
+          "component": dashboard,
+          "meta": {
+            "name": "仪表盘"
+          }
+        },
+        {
+          "path": "page1",
+          "name": "page1",
+          "component": empty_route,
+          "meta": {
+            "name": "页面1"
+          },
+          "children": [
+            {
+              "path": "/",
+              "redirect": "page1_1"
+            },
+            {
+              "path": "page1_1",
+              "name": "page1_1",
+              "component": page1_1,
+              "meta": {
+                "name": "页面1_1"
+              }
+            },
+            {
+              "path": "page1_2",
+              "name": "page1_2",
+              "component": empty_route,
+              "meta": {
+                "name": "页面1_2"
+              },
+              "children": [
+                {
+                  "path": "/",
+                  "redirect": "page1_2_1"
+                },
+                {
+                  "path": "page1_2_1",
+                  "name": "page1_2_1",
+                  "component": page1_2_1,
+                  "meta": {
+                    "name": "页面1_2_1"
+                  }
+                },
+                {
+                  "path": "page1_2_2",
+                  "name": "page1_2_2",
+                  "component": empty_route,
+                  "meta": {
+                    "name": "页面1_2_2"
+                  },
+                  "children": [
+                    {
+                      "path": "/",
+                      "redirect": "page1_2_2_1"
+                    },
+                    {
+                      "path": "page1_2_2_1",
+                      "name": "page1_2_2_1",
+                      "component": page1_2_2_1,
+                      "meta": {
+                        "name": "页面1_2_2_1"
+                      }
+                    },
+                    {
+                      "path": "page1_2_2_2",
+                      "name": "page1_2_2_2",
+                      "component": page1_2_2_2,
+                      "meta": {
+                        "name": "页面1_2_2_2"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "path": "page2",
+          "name": "page2",
+          "component": page2,
+          "meta": {
+            "name": "页面2"
+          }
+        }
+      ]
+    }
+  ]
 });
 
 // 被忽略的路由地址
 const ignore = [
-	'/', 'login', 'page-404', 'page-403', 'page-500'
+	'/', 'login', 'exception_404', 'exception_403', 'exception_500'
 ]
 
 /**
@@ -132,18 +223,22 @@ router.beforeEach((to, from, next) => {
 	// 控制导航菜单
 	store.commit('navName', {navName: index === -1 ? path : path.substring(0, index)});
 	// 控制页面权限
-	// @特殊处理, 过滤无关路由, 可以显示的路由, 权限内的路由
-	let permission = store.getters.permission;
-	let per = permission[to.name]
-	if (ignore.indexOf(to.name) !== -1 || to.meta.show || per && per.query) {
-		next();
-	} else {
-		if (!to.name) {
-			router.push({name: 'page-404'});
-		} else {
-			router.push({name: 'page-403'});
-		}
-	}
+	if (appConfig.permission) {
+    // @特殊处理, 过滤无关路由, 可以显示的路由, 权限内的路由
+    let permission = store.getters.permission;
+    let per = permission[to.name]
+    if (ignore.indexOf(to.name) !== -1 || to.meta.show || per && per.query) {
+      next();
+    } else {
+      if (!to.name) {
+        router.push({name: 'exception_404'});
+      } else {
+        router.push({name: 'exception_403'});
+      }
+    }
+  } else {
+    next()
+  }
 });
 
 export default router

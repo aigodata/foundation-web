@@ -4,7 +4,7 @@ import axios from 'axios'
 import moment from 'moment'
 import localStore from 'store'									// 浏览器存储
 import store from './store' 									  // vuex
-import './registerServiceWorker'								// pwa
+// import './registerServiceWorker'								// pwa
 import appConfig from '../app.config'						// 系统全局配置
 import router from './router'
 

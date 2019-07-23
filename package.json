@@ -10,6 +10,8 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@aigodata/element-theme": "2.10.0",
+    "babel-runtime": "^6.26.0",
     "@antv/g2": "^3.5.7",
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
@@ -32,6 +34,8 @@
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-pwa": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-transform-vue-jsx": "^3.7.0",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
     "koa-compress": "^2.0.0",

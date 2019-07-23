@@ -7,36 +7,59 @@ const template = require('art-template')						// 模板引擎 https://aui.github
 // let tpl = path.resolve(__dirname, './tpl')
 
 // let empty = fs.readFileSync(tpl + '/empty.tpl')
-// 初始页面模板
-let emptyTpl = path.resolve(__dirname, './init/tpl/empty.tpl')
-// 路由模板
-let routerTpl = path.resolve(__dirname, './init/tpl/router.tpl')
-let routerPath = path.resolve(__dirname, '../src/router2.js')
+
+// 模板路径
+let tpl = {
+	404: path.resolve(__dirname, './init/tpl/exception/exception_404.vue'),
+	403: path.resolve(__dirname, './init/tpl/exception/exception_403.vue'),
+	500: path.resolve(__dirname, './init/tpl/exception/exception_500.vue'),
+	// 登录
+	login: path.resolve(__dirname, './init/tpl/login/login.vue'),
+	// 主页面
+	main: path.resolve(__dirname, './init/tpl/main/main.vue'),
+	// 初始页面模板
+	empty: path.resolve(__dirname, './init/tpl/empty.vue'),
+	// 空路由
+	empty_route: path.resolve(__dirname, './init/tpl/empty_route/empty_route.vue'),
+	// 路由模板
+	router: path.resolve(__dirname, './init/tpl/router.tpl'),
+}
+
+let routerPath = path.resolve(__dirname, '../src/router.js')
 
 /**
  * 删除目录下所有文件夹和文件
- * @param absolutePath 绝对路径
+ * @param delPath 绝对路径
  */
-let deleteAll = (absolutePath) => {
+let deleteAll = (delPath) => {
 	let files = [];
 	// 判断是否存在
-	if (fs.existsSync(absolutePath)) {
+	if (fs.existsSync(delPath)) {
 		// 读取所有下属文件和文件夹
-		files = fs.readdirSync(absolutePath)
+		files = fs.readdirSync(delPath)
 		// 遍历
 		files.forEach((file, index) => {
-			let curPath = absolutePath + "/" + file
+			let currentPath = delPath + "/" + file
 			// 存在子文件夹, 递归删除
-			if (fs.statSync(curPath).isDirectory()) {
-				deleteAll(curPath)
+			if (fs.statSync(currentPath).isDirectory()) {
+				deleteAll(currentPath)
 			} else {
 				// 删除文件
-				fs.unlinkSync(curPath);
+				fs.unlinkSync(currentPath);
 			}
 		});
-		// 删除掉下属文件和文件夹后, 删除空文件夹
-		fs.rmdirSync(absolutePath);
+		// 过滤掉 /src/views 视图根目录
+		if (delPath !== absolutePath) {
+			// 删除掉下属文件和文件夹后, 删除空文件夹
+			fs.rmdirSync(delPath);
+		}
 	}
+}
+
+
+function copyFile(src, dest) {
+	let readStream = fs.createReadStream(src);
+	readStream.pipe(fs.createWriteStream(dest));
 }
 
 /**
@@ -44,62 +67,130 @@ let deleteAll = (absolutePath) => {
  * @param pages 页面清单
  * @param absolutePath  绝对路径
  */
-let recursivePage = (pages, absolutePath) => {
+let generatePage = (pages, absolutePath) => {
 	if (pages && pages.length > 0) {
 		pages.forEach(d => {
 			// 目录-------------------------
-			let directory = absolutePath + '/' + d.name
+			let fileDirectory = (d.directory === undefined ? d.name : d.directory)
+			let directory = absolutePath + '/' + fileDirectory
 			// 判断目录是否存在
 			let exists = fs.existsSync(directory)
-			// 存在递归删除目录及下属文件和文件夹
-			if (exists) {
-				deleteAll(directory)
+			// 不存在新增目录
+			if (!exists) {
+				fs.mkdirSync(directory)
 			}
-			// 新增目录
-			fs.mkdirSync(directory)
 
 			// 文件-------------------------
-			let file = absolutePath + '/' + d.name + '/' + d.name + '.vue'
-			// 判断文件是否存在
-			exists = fs.existsSync(file)
-			// 存在删除文件
-			if (exists) {
-				fs.unlinkSync(file)
+			// 过滤空路由
+			if (d.template !== 'empty_route') {
+				let file = absolutePath + '/' + fileDirectory + '/' + d.name + '.vue'
+				// 判断文件是否存在
+				exists = fs.existsSync(file)
+				// 存在删除文件
+				if (exists) {
+					fs.unlinkSync(file)
+				}
+				// 渲染模板
+				console.log(file, d.template + '')
+				let tplPath = tpl[d.template || 'empty']
+				const html = template(tplPath, d);
+				// 新增文件
+				fs.writeFileSync(file, html)
 			}
-			// 渲染模板
-			const html = template(emptyTpl, d);
-			// 新增文件
-			fs.writeFileSync(file, html)
 
 			// 递归-------------------------
-			recursivePage(d.children, directory)
+			generatePage(d.children, directory)
 		})
 	}
 }
 
 /**
- * 递归构建路由
+ * 递归构建路由地址
  * @param pages 页面清单
  * @param relativePath  相对路径
  * @param display 注释 不断累积
  * @param addressList 路由地址
  */
-let recursiveRouter = (pages, relativePath, display, addressList) => {
+let recursiveRouterAddress = (pages, relativePath, display, addressList) => {
 	if (pages && pages.length > 0) {
 		pages.forEach(d => {
 			// 目录
-			let directory = relativePath + '/' + d.name
+			let fileDirectory = (d.directory === undefined ? d.name : d.directory)
+			let directory = relativePath + (fileDirectory ? '/' + fileDirectory : '')
 			// 注释
-			d.display = (display ? display  + ' | ' : '') + d.display
+			let note = (display ? display + ' | ' : '') + d.display
 			// 相对路径
-			d.path = directory + '/' + d.name + '.vue'
-			// 存储
-			addressList.push({
-				lazy: true,
-				...d
-			})
+			d.filePath = directory + '/' + d.name + '.vue'
+			// 存储地址
+			// 过滤空路由情况
+			if ((!d.children || d.children.length === 0)
+				|| (!d.template || d.template !== 'empty_route') ) {
+				addressList.push({lazy: true, note: note, ...d})
+			}
 			// 递归
-			recursiveRouter(d.children, directory, d.display, addressList)
+			recursiveRouterAddress(d.children, directory, note, addressList)
+		})
+	}
+}
+
+// /**
+//  * 递归构建路由表
+//  * @param pages 页面清单
+//  * @param router 路由表
+//  */
+// let recursiveRouterTable = (pages, router) => {
+// 	if (pages && pages.length > 0) {
+// 		pages.forEach(d => {
+// 			// 为了格式化, 故意没有对齐
+// 			let route = `
+// 		{
+// 			path: '${ d.path || d.name }', name: '${ d.name }', component: ${ d.name }, meta: {name: '${ d.display }'},`
+//
+// 			if (d.children && d.children.length > 0) {
+// 				route += `
+// 			children: [
+// 				{
+// 					path: '/', redirect: '${ d.children[0].name }',
+// 				},
+//
+// 			],`
+// 			}
+// 			route += `
+// 		},`
+// 			router.routerTable += route
+// 			// 递归
+// 			recursiveRouterTable(d.children, router)
+// 		})
+// 	}
+// }
+
+/**
+ * 递归构建路由表
+ * @param pages 页面清单
+ * @param routes 路由表
+ */
+let recursiveRouterTable = (pages, routes) => {
+	if (pages && pages.length > 0) {
+		pages.forEach(d => {
+			let route = {
+				path: d.path || d.name,
+				name: d.name,
+				component: "@" + d.name + '@',			// 为了后期格式化替换
+				meta: {
+					name: d.display
+				},
+			}
+			if (d.children && d.children.length > 0) {
+				route.component = '@' + (d.template || 'empty_route') + '@'
+				route.children = [
+					{
+						path: '/', redirect: d.children[0].path || d.children[0].name,
+					},
+				]
+				// 递归
+				recursiveRouterTable(d.children, route.children)
+			}
+			routes.push(route)
 		})
 	}
 }
@@ -113,21 +204,41 @@ let generateRouter = (pages, relativePath) => {
 	pages = JSON.parse(JSON.stringify(pages))
 	// 路由地址
 	let addressList = []
-	recursiveRouter(pages, relativePath, '', addressList)
+	recursiveRouterAddress(pages, relativePath, '', addressList)
+	// 路由表
+	let routes = [] // {routerTable: ''}
+	// 兼容处理, 原生路由
+	routes = routes.concat(config.originRouter)
+	recursiveRouterTable(pages, routes)
+	// 正则替换 @@占位符
+	let regExp = /\"@([A-Za-z0-9_]+)@\"/gm
+	let routerTable = JSON.stringify({ routes: routes }, 2, 2)
 	// 渲染模板
-	const html = template(routerTpl, {
-		addressList: addressList
+	const html = template(tpl.router, {
+		addressList: addressList,
+		routerTable: routerTable.replace(regExp, '$1')
 	});
 	// 新增文件
 	fs.writeFileSync(routerPath, html)
 }
 
-let pages = config.pages.children
+/**
+ * 误执行咋办? 询问?
+ */
+
+let pages = config.pages
 let absolutePath = path.resolve(__dirname, '../src/views')
-recursivePage(pages, absolutePath)
 
+// 删除视图文件夹下的子文件夹和文件
+deleteAll(absolutePath)
+
+// 生成页面
+generatePage(pages, absolutePath)
+// 补充空路由
+copyFile(tpl.empty_route + '', absolutePath + '/empty_route.vue')
+
+// 生成路由地址 & 生成路由表
 generateRouter(pages, '@/views')
-
 
 
 // // 新增目录

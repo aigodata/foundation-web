@@ -145,7 +145,7 @@
   import cryptoUtil from '@/lib/cryptoUtil'
   import basic from '@/mixin/basic';
   import permission from '@/mixin/permission';
-  import ElCheckbox from "../../../node_modules/element-ui/packages/checkbox/src/checkbox.vue";
+  import ElCheckbox from "../../../../node_modules/element-ui/packages/checkbox/src/checkbox.vue";
   export default {
     components: {ElCheckbox},
     mixins: [basic, permission],

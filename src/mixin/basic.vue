@@ -53,7 +53,9 @@
       }
     },
     mounted() {
-       this.__checkSession()
+      if (this.$config.permission) {
+        this.__checkSession()
+      }
     }
   }
 </script>

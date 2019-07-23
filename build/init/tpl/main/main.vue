@@ -49,9 +49,11 @@
       }
     },
     mounted() {
-      // @特殊处理, 如果没有用户登录信息, 跳转到登录页面
-      if (!this.user.name) {
-        this.$router.push({name: 'login'})
+      if (this.$config.permission) {
+        // @特殊处理, 如果没有用户登录信息, 跳转到登录页面
+        if (!this.user.name) {
+          this.$router.push({name: 'login'})
+        }
       }
       // @特殊处理, 如何一个菜单都没有配置, 侧边栏隐藏, 并main也不会显示
       if (this.$route.name === 'main') {

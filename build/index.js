@@ -4,9 +4,9 @@ const config = require('./config')									// 获取配置
 const template = require('art-template')						// 模板引擎 https://aui.github.io/art-template/zh-cn/docs
 
 
-// let tpl = path.resolve(__dirname, './tpl')
-
-// let empty = fs.readFileSync(tpl + '/empty.tpl')
+/**
+ *	!!! 切勿自动格式化, 文件中含有文件初始化的生成格式 !!!
+ */
 
 // 模板路径
 let tpl = {
@@ -131,37 +131,6 @@ let recursiveRouterAddress = (pages, relativePath, display, addressList) => {
 	}
 }
 
-// /**
-//  * 递归构建路由表
-//  * @param pages 页面清单
-//  * @param router 路由表
-//  */
-// let recursiveRouterTable = (pages, router) => {
-// 	if (pages && pages.length > 0) {
-// 		pages.forEach(d => {
-// 			// 为了格式化, 故意没有对齐
-// 			let route = `
-// 		{
-// 			path: '${ d.path || d.name }', name: '${ d.name }', component: ${ d.name }, meta: {name: '${ d.display }'},`
-//
-// 			if (d.children && d.children.length > 0) {
-// 				route += `
-// 			children: [
-// 				{
-// 					path: '/', redirect: '${ d.children[0].name }',
-// 				},
-//
-// 			],`
-// 			}
-// 			route += `
-// 		},`
-// 			router.routerTable += route
-// 			// 递归
-// 			recursiveRouterTable(d.children, router)
-// 		})
-// 	}
-// }
-
 /**
  * 递归构建路由表
  * @param pages 页面清单
@@ -222,6 +191,72 @@ let generateRouter = (pages, relativePath) => {
 	fs.writeFileSync(routerPath, html)
 }
 
+/**
+ * 递归构建权限清单
+ * @param pages 页面清单
+ * @param per 权限清单- 权限表, 角色_权限关联表
+ */
+let recursivePermission = (pages, per) => {
+	let type = {
+		select: '查询',
+		insert: '新增',
+		update: '更新',
+		delete: '删除',
+		import: '导入',
+		export: '导出',
+	}
+	if (pages && pages.length > 0) {
+		pages.forEach((d, idx) => {
+			// 格式化需要, 估计没有对齐
+			// 权限仅配置没有子页面
+			if (!d.children || d.children.length === 0) {
+				if (d.permission) {
+					per.permission += `
+-- ${ d.display }
+`
+					d.permission.forEach(p => {
+						per.permission += `INSERT INTO \`sys_permission\` VALUES (${ per.index }, '${ d.name }', '${ d.display }', '${ p }', '${ type[p] }${ d.display }');
+`
+// 					per.role_permission += `
+// -- ${ d.display }
+// `
+						per.role_permission += `INSERT INTO \`sys_role_permission\` VALUES (1, ${ per.index });
+`
+						per.index += 1
+					})
+				}
+			}
+			// 递归
+			recursivePermission(d.children, per)
+		})
+	}
+}
+
+/**
+ * 生成权限清单
+ * @param pages 页面清单
+ */
+let generatePermission = (pages) => {
+	// 路由地址
+	let per = {
+		index: 1,
+		permission: '',
+		role_permission: ''
+	}
+	recursivePermission(pages, per)
+	// 新增文件
+	let routerPath = path.resolve(__dirname, '../role-permission.sql')
+	console.log('build permission sql:  ', routerPath)
+	// 格式化需要, 估计没有对齐
+	fs.writeFileSync(routerPath, `
+-- 权限清单
+-- 权限表
+${ per.permission }
+-- 角色权限关联表
+${ per.role_permission }
+	`)
+}
+
 let pages = config.pages
 let absolutePath = path.resolve(__dirname, '../src/views')
 
@@ -235,6 +270,9 @@ copyFile(tpl.empty_route + '', absolutePath + '/empty_route.vue')
 
 // 生成路由地址 & 生成路由表
 generateRouter(pages, '@/views')
+
+// 生成权限清单
+generatePermission(pages)
 
 /**
  * ??? 误执行咋办? 询问式 需要配置参数?

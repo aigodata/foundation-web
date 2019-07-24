@@ -13,7 +13,7 @@ import empty_route from '@/views/empty_route.vue'
 /**
  * 动态生成路由地址
  */
- <% for (let item of addressList) { %><% if (item.lazy) { %>
+<% for (let item of addressList) { %><% if (item.lazy) { %>
 // <%= item.note %>
 const <%= item.name %> = () => import('<%= item.filePath %>')
 <% } else { %>

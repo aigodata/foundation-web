@@ -28,8 +28,9 @@ let tpl = {
 /**
  * 删除目录下所有文件夹和文件
  * @param delPath 绝对路径
+ * @param ignore 忽略文件的数组
  */
-let deleteAll = (delPath) => {
+let deleteFileAll = (delPath, ignore) => {
 	let files = [];
 	// 判断是否存在
 	if (fs.existsSync(delPath)) {
@@ -40,10 +41,13 @@ let deleteAll = (delPath) => {
 			let currentPath = delPath + "/" + file
 			// 存在子文件夹, 递归删除
 			if (fs.statSync(currentPath).isDirectory()) {
-				deleteAll(currentPath)
+				deleteFileAll(currentPath, ignore)
 			} else {
 				// 删除文件
-				fs.unlinkSync(currentPath);
+				console.log('file', file)
+				if (ignore.indexOf(file) === -1) {
+					fs.unlinkSync(currentPath);
+				}
 			}
 		});
 		// 过滤掉 /src/views 视图根目录
@@ -89,7 +93,7 @@ let generatePage = (pages, absolutePath) => {
 					fs.unlinkSync(file)
 				}
 				// 渲染模板
-				console.log('build: ', file)
+				console.log('build page: ', file)
 				let tplPath = tpl[d.template || 'empty']
 				const html = template(tplPath, d);
 				// 新增文件
@@ -261,7 +265,7 @@ let pages = config.pages
 let absolutePath = path.resolve(__dirname, '../src/views')
 
 // 删除视图文件夹下的子文件夹和文件
-deleteAll(absolutePath)
+deleteFileAll(absolutePath, ['.gitkeep'])
 
 // 生成页面
 generatePage(pages, absolutePath)

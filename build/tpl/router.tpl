@@ -13,13 +13,13 @@ import empty_route from '@/views/empty_route.vue'
 /**
  * 动态生成路由地址
  */
-{{each addressList item idx}} {{ if item.lazy }}
-// {{ item.note }}
-const {{ item.name }} = () => import('{{ item.filePath }}')
-{{ else }}
-// {{ item.display }}
-import {{ item.name }} from '{{ item.filePath }}'
-{{ /if }} {{ /each }}
+ <% for (let item of addressList) { %><% if (item.lazy) { %>
+// <%= item.note %>
+const <%= item.name %> = () => import('<%= item.filePath %>')
+<% } else { %>
+// <%= item.note %>
+import <%= item.name %> from '<%= item.filePath %>'
+<% } %><% } %>
 
 /**
  * 动态生成路由表

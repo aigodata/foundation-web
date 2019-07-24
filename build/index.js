@@ -10,22 +10,20 @@ const template = require('art-template')						// 模板引擎 https://aui.github
 
 // 模板路径
 let tpl = {
-	404: path.resolve(__dirname, './init/tpl/exception/exception_404.vue'),
-	403: path.resolve(__dirname, './init/tpl/exception/exception_403.vue'),
-	500: path.resolve(__dirname, './init/tpl/exception/exception_500.vue'),
+	404: path.resolve(__dirname, './tpl/exception/exception_404.vue'),
+	403: path.resolve(__dirname, './tpl/exception/exception_403.vue'),
+	500: path.resolve(__dirname, './tpl/exception/exception_500.vue'),
 	// 登录
-	login: path.resolve(__dirname, './init/tpl/login/login.vue'),
+	login: path.resolve(__dirname, './tpl/login/login.vue'),
 	// 主页面
-	main: path.resolve(__dirname, './init/tpl/main/main.vue'),
+	main: path.resolve(__dirname, './tpl/main/main.vue'),
 	// 初始页面模板
-	empty: path.resolve(__dirname, './init/tpl/empty.vue'),
+	empty: path.resolve(__dirname, './tpl/empty/empty.vue'),
 	// 空路由
-	empty_route: path.resolve(__dirname, './init/tpl/empty_route/empty_route.vue'),
+	empty_route: path.resolve(__dirname, './tpl/empty_route/empty_route.vue'),
 	// 路由模板
-	router: path.resolve(__dirname, './init/tpl/router.tpl'),
+	router: path.resolve(__dirname, './tpl/router.tpl'),
 }
-
-let routerPath = path.resolve(__dirname, '../src/router.js')
 
 /**
  * 删除目录下所有文件夹和文件
@@ -91,7 +89,7 @@ let generatePage = (pages, absolutePath) => {
 					fs.unlinkSync(file)
 				}
 				// 渲染模板
-				console.log(file, d.template + '')
+				console.log('build: ', file)
 				let tplPath = tpl[d.template || 'empty']
 				const html = template(tplPath, d);
 				// 新增文件
@@ -219,12 +217,10 @@ let generateRouter = (pages, relativePath) => {
 		routerTable: routerTable.replace(regExp, '$1')
 	});
 	// 新增文件
+	let routerPath = path.resolve(__dirname, '../src/router.js')
+	console.log('build router:  ', routerPath)
 	fs.writeFileSync(routerPath, html)
 }
-
-/**
- * 误执行咋办? 询问?
- */
 
 let pages = config.pages
 let absolutePath = path.resolve(__dirname, '../src/views')
@@ -239,6 +235,10 @@ copyFile(tpl.empty_route + '', absolutePath + '/empty_route.vue')
 
 // 生成路由地址 & 生成路由表
 generateRouter(pages, '@/views')
+
+/**
+ * ??? 误执行咋办? 询问式 需要配置参数?
+ */
 
 
 // // 新增目录

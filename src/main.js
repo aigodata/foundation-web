@@ -45,12 +45,14 @@ Vue.prototype.$validator = validator;
 let permission = '';
 Vue.directive('permission', {
 	bind: function (el, binding, vnode) {
-		!permission && (permission = localStore.get("permission"));
-		let [module, ...action] = binding.value.split('.');
-		// 具备模块的权限, 并具备模块的动作权限
-		let per = permission[module];
-		if (!per || !action.some(v => per[v]) ) {
-			el.style = 'display:none !important';
+		if (this.$config.permission) {
+			!permission && (permission = localStore.get("permission"));
+			let [module, ...action] = binding.value.split('.');
+			// 具备模块的权限, 并具备模块的动作权限
+			let per = permission[module];
+			if (!per || !action.some(v => per[v]) ) {
+				el.style = 'display:none !important';
+			}
 		}
 	}
 });

@@ -16,40 +16,40 @@ import empty_route from '@/views/empty_route.vue'
  
 // 登录
 const login = () => import('@/views/login/login.vue')
-  
+
 // 页面不存在
 const exception_404 = () => import('@/views/exception/exception_404.vue')
-  
+
 // 无访问权限
 const exception_403 = () => import('@/views/exception/exception_403.vue')
-  
+
 // 服务器错误
 const exception_500 = () => import('@/views/exception/exception_500.vue')
-  
+
 // 主页面
 import main from '@/views/main.vue'
-  
+
 // 主页面 | 仪表盘
 const dashboard = () => import('@/views/dashboard/dashboard.vue')
-  
+
 // 主页面 | 页面1
 const page1 = () => import('@/views/page1/page1.vue')
-  
+
 // 主页面 | 页面1 | 页面1_1
 const page1_1 = () => import('@/views/page1/page1_1/page1_1.vue')
-  
+
 // 主页面 | 页面1 | 页面1_2 | 页面1_2_1
 const page1_2_1 = () => import('@/views/page1/page1_2/page1_2_1/page1_2_1.vue')
-  
+
 // 主页面 | 页面1 | 页面1_2 | 页面1_2_2 | 页面1_2_2_1
 const page1_2_2_1 = () => import('@/views/page1/page1_2/page1_2_2/page1_2_2_1/page1_2_2_1.vue')
-  
+
 // 主页面 | 页面1 | 页面1_2 | 页面1_2_2 | 页面1_2_2_2
 const page1_2_2_2 = () => import('@/views/page1/page1_2/page1_2_2/page1_2_2_2/page1_2_2_2.vue')
-  
+
 // 主页面 | 页面2
 const page2 = () => import('@/views/page2/page2.vue')
- 
+
 
 /**
  * 动态生成路由表

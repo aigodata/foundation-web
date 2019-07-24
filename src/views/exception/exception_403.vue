@@ -1,5 +1,6 @@
 <template>
-  <div id="page-403">
+  <!-- 无访问权限 -->
+  <div class="exception_403">
     <div class="ripple">
       <img :src="ripple" width="100%">
     </div>
@@ -18,7 +19,7 @@
   import code from '@/assets/images/403.png';
 
   export default {
-    name: 'page-403',
+    name: 'exception_403',
     data() {
       return {
         ripple: ripple,
@@ -35,7 +36,7 @@
 
 
 <style>
-  #page-403 {
+  .exception_403 {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -43,14 +44,14 @@
     background-image: linear-gradient(90deg, RGBA(16, 84, 156, 1) 50%, RGBA(29, 95, 166, 1));
   }
 
-  #page-403 .ripple {
+  .exception_403 .ripple {
     position: absolute;
     width: 100%;
     bottom: -1px;
     z-index: 1;
   }
 
-  #page-403 .error-box {
+  .exception_403 .error-box {
     text-align: center;
     position: absolute;
     top: 45%;
@@ -59,12 +60,12 @@
     z-index: 2;
   }
 
-  #page-403 .error-text {
+  .exception_403 .error-text {
     margin-top: 30px;
     color: #fff;
   }
 
-  #page-403 .error-text span a {
+  .exception_403 .error-text span a {
     color: #fff;
   }
 </style>

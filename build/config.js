@@ -8,17 +8,21 @@ module.exports = {
 	 *  配置参数说明
 	 *
 	 *      name: 也是文件名, 也是vue组件的name属性名, 也是页面顶层class名, 也是面包屑名字
-	 *            注意事项: 不要使用 - 中横线, 不利于生成变量名
+	 *            注意事项:
+	 *            	不要使用 - 中横线, 不利于生成变量名
+	 *            	名称匹配的正则规则 [A-Za-z0-9_]
 	 *
 	 *      display: 页面名称, document.title名称, 填充到模板各处的注释名称, 也是路由meta: {name: xxx }
 	 *
 	 *      path: 相对路由地址 (生成路由表时会自动产生, 默认由name进行代替)
 	 *
 	 *      directory: 页面文件的相对存储目录, 默认不使用, 如果配置将优先使用目录字段来存放文件,
-	 *                 例1: 将多个文件放在同一个目录下
-	 *                 		directory: 'exception',  文件将按  src/views/exception/文件名  来存储在
-	 *                 例2: 希望将文件上提
-	 *                 		directory: '',  文件将按  src/views/文件名 来存储在, 所有子路由跟随同样上提
+	 *                 例1:
+	 *                    将多个文件放在同一个目录下
+	 *                 			directory: 'exception',  文件将按  src/views/exception/文件名  来存储在
+	 *                 例2:
+	 *                    希望将文件上提
+	 *                 			directory: '',  文件将按  src/views/文件名 来存储在, 所有子路由跟随同样上提
 	 *
 	 *      lazy: 路由是否是懒加载, 默认 true == 懒加载
 	 *

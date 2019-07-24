@@ -1,13 +1,13 @@
 <template>
-  <!-- {{ display }} -->
-  <div class="{{ name }}">
-    {{ display }}
+  <!-- <%= display %> -->
+  <div class="<%= name %>">
+    <%= display %>
   </div>
 </template>
 
 <script>
   export default {
-    name: '{{ name }}',
+    name: '<%= name %>',
     computed: {
     },
     data() {
@@ -25,7 +25,7 @@
 </script>
 
 <style>
-  .{{ name }} {
+  .<%= name %> {
     height: 100%;
     position: relative;
   }

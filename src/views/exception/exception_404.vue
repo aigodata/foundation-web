@@ -1,5 +1,6 @@
 <template>
-  <div id="page-404">
+  <!-- 页面不存在 -->
+  <div class="exception_404">
     <div class="ripple">
       <img :src="ripple" width="100%">
     </div>
@@ -18,7 +19,7 @@
   import code from '@/assets/images/404.png';
 
   export default {
-    name: 'page-404',
+    name: 'exception_404',
     data() {
       return {
         ripple: ripple,
@@ -35,7 +36,7 @@
 
 
 <style>
-  #page-404 {
+  .exception_404 {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -43,14 +44,14 @@
     background-image: linear-gradient(90deg, RGBA(16, 84, 156, 1) 50%, RGBA(29, 95, 166, 1));
   }
 
-  #page-404 .ripple {
+  .exception_404 .ripple {
     position: absolute;
     width: 100%;
     bottom: -1px;
     z-index: 1;
   }
 
-  #page-404 .error-box {
+  .exception_404 .error-box {
     text-align: center;
     position: absolute;
     top: 45%;
@@ -59,12 +60,12 @@
     z-index: 2;
   }
 
-  #page-404 .error-text {
+  .exception_404 .error-text {
     margin-top: 30px;
     color: #fff;
   }
 
-  #page-404 .error-text span a {
+  .exception_404 .error-text span a {
     color: #fff;
   }
 </style>

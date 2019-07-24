@@ -1,5 +1,6 @@
 <template>
-  <div id="page-500">
+  <!-- 服务器错误 -->
+  <div class="exception_500">
     <div class="ripple">
       <img :src="ripple" width="100%">
     </div>
@@ -18,7 +19,7 @@
   import code from '@/assets/images/500.png';
 
   export default {
-    name: 'page-500',
+    name: 'exception_500',
     data() {
       return {
         ripple: ripple,
@@ -35,7 +36,7 @@
 
 
 <style>
-  #page-500 {
+  .exception_500 {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -43,14 +44,14 @@
     background-image: linear-gradient(90deg, RGBA(16, 84, 156, 1) 50%, RGBA(29, 95, 166, 1));
   }
 
-  #page-500 .ripple {
+  .exception_500 .ripple {
     position: absolute;
     width: 100%;
     bottom: -1px;
     z-index: 1;
   }
 
-  #page-500 .error-box {
+  .exception_500 .error-box {
     text-align: center;
     position: absolute;
     top: 45%;
@@ -59,12 +60,12 @@
     z-index: 2;
   }
 
-  #page-500 .error-text {
+  .exception_500 .error-text {
     margin-top: 30px;
     color: #fff;
   }
 
-  #page-500 .error-text span a {
+  .exception_500 .error-text span a {
     color: #fff;
   }
 </style>

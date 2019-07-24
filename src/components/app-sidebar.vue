@@ -298,8 +298,11 @@
             item.meta.show = show
           } else {
             // 判断单个路由是否有访问权限
-            let per = permission[item.name];
-            let show = (per && per.query) ? true : false;
+            let show = true
+            if (this.$config.permission) {
+              let per = permission[item.name];
+              show = (per && per.query) ? true : false;
+            }
             !item.meta && (item.meta = {});
             item.meta.show = show;
             show && arr.push(item.name);

@@ -64,15 +64,15 @@
      import  导入
      export  导出
     
-    v-if="permissions('模块名.update')"  // 模块是否有更新权限
+    v-if="permission('模块名.update')"  // 模块是否有更新权限
     
-    v-if="permissions('模块名.update.delete')"   // 模块是否有更新或者删除权限
+    v-if="permission('模块名.update.delete')"   // 模块是否有更新或者删除权限
     
     示例一
       <el-button v-show="permission('模块名.update')">修改</el-button>
     
     示例二  
-      <el-table-column v-if="permissions('模块名.update.delete')">
+      <el-table-column v-if="permission('模块名.update.delete')">
         <template slot-scope="scope">
           <el-button v-if="permission('update')">修改</el-button>
           <el-button v-if="permission('delete')">删除</el-button>

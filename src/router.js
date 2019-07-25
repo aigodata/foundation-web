@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import store from './store'
 import Router from 'vue-router'
-import appConfig from '../app.config'						// 系统全局配置
+import appConfig from '../app.config.js'						// 系统全局配置
 
 Vue.use(Router);
 

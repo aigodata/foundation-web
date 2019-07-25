@@ -53,6 +53,35 @@
 ### 项目介绍
 
 
+#### 页面权限控制
+
+    重新设计了权限控制, 简化书写, 支持配置如下:
+                       
+     select  查询
+     insert  添加
+     update  修改
+     delete  删除
+     import  导入
+     export  导出
+    
+    v-if="permissions('模块名.update')"  // 模块是否有更新权限
+    
+    v-if="permissions('模块名.update.delete')"   // 模块是否有更新或者删除权限
+    
+    示例一
+      <el-button v-show="permission('模块名.update')">修改</el-button>
+    
+    示例二  
+      <el-table-column v-if="permissions('模块名.update.delete')">
+        <template slot-scope="scope">
+          <el-button v-if="permission('update')">修改</el-button>
+          <el-button v-if="permission('delete')">删除</el-button>
+        </template>
+      </el-table-column>
+
+    ps:
+       permission 方法, 由/mixin/permission.vue进行封装
+
 ### 启动项目流程
 
     1.   

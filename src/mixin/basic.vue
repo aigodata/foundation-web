@@ -6,13 +6,6 @@
     data() {
       return {
         mixin_dict: {
-          sys_org__category: {
-            1: 'CFAA',
-            2: '分子公司',
-            3: '事业部',
-            4: '部门',
-            5: '工厂'
-          }
         },
         // 同步时间 - 限定时间范围
         pickerOptions: {

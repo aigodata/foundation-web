@@ -6,7 +6,6 @@
     "server": "./node_modules/.bin/nodemon server/server.js",
     "start": "npm run dev-serve",
     "dev-serve": "vue-cli-service serve",
-    "serve:local": "./node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
@@ -23,7 +22,6 @@
     "moment": "^2.22.2",
     "node-sass": "^4.9.3",
     "numeral": "^2.0.6",
-    "register-service-worker": "^1.6.2",
     "store": "^2.0.12",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
@@ -32,7 +30,6 @@
   "devDependencies": {
     "art-template": "^4.13.2",
     "@vue/cli-plugin-babel": "^3.9.0",
-    "@vue/cli-plugin-pwa": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",

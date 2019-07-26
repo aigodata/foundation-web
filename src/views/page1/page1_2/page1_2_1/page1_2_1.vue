@@ -6,7 +6,10 @@
 </template>
 
 <script>
+  import basic from '@/mixin/basic.vue'
+  import permission from '@/mixin/permission.vue'
   export default {
+    mixins: [basic, permission],
     name: 'page1_2_1',
     computed: {
     },

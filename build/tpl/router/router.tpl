@@ -11,6 +11,11 @@ Vue.use(Router);
 import empty_route from '@/views/empty_route.vue'
 
 /**
+ * 跳转路由, 为了解决路由重复点击的强制刷新问题
+ */
+import back_route from '@/views/back_route.vue'
+
+/**
  * 动态生成路由地址
  */
 <% for (let item of addressList) { %><% if (item.lazy) { %>

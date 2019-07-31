@@ -20,9 +20,13 @@ let tpl = {
 	// 初始页面模板
 	empty: path.resolve(__dirname, './tpl/empty/empty.vue'),
 	// 空路由
-	empty_route: path.resolve(__dirname, './tpl/empty_route/empty_route.vue'),
+	back_route: path.resolve(__dirname, './tpl/router/back_route.vue'),
+	// 刷新路由
+	empty_route: path.resolve(__dirname, './tpl/router/empty_route.vue'),
+	// 保持文件夹提交状态
+	gitkeep: path.resolve(__dirname, './tpl/router/.gitkeep'),
 	// 路由模板
-	router: path.resolve(__dirname, './tpl/router.tpl'),
+	router: path.resolve(__dirname, './tpl/router/router.tpl'),
 }
 
 /**
@@ -44,7 +48,7 @@ let deleteFileAll = (delPath, ignore) => {
 				deleteFileAll(currentPath, ignore)
 			} else {
 				// 删除文件
-				console.log('file', file)
+				console.log('remove file', file)
 				if (ignore.indexOf(file) === -1) {
 					fs.unlinkSync(currentPath);
 				}
@@ -72,6 +76,9 @@ function copyFile(src, dest) {
 let generatePage = (pages, absolutePath) => {
 	if (pages && pages.length > 0) {
 		pages.forEach(d => {
+			if ( d.name === 'back_route' && d.template === 'back_route') {
+				return
+			}
 			// 目录-------------------------
 			let fileDirectory = (d.directory === undefined ? d.name : d.directory)
 			let directory = absolutePath + '/' + fileDirectory
@@ -93,7 +100,7 @@ let generatePage = (pages, absolutePath) => {
 					fs.unlinkSync(file)
 				}
 				// 渲染模板
-				console.log('build page: ', file)
+				console.log('create page: ', file)
 				let tplPath = tpl[d.template || 'empty']
 				const html = template(tplPath, d);
 				// 新增文件
@@ -116,6 +123,9 @@ let generatePage = (pages, absolutePath) => {
 let recursiveRouterAddress = (pages, relativePath, display, addressList) => {
 	if (pages && pages.length > 0) {
 		pages.forEach(d => {
+			if ( d.name === 'back_route' && d.template === 'back_route') {
+				return
+			}
 			// 目录
 			let fileDirectory = (d.directory === undefined ? d.name : d.directory)
 			let directory = relativePath + (fileDirectory ? '/' + fileDirectory : '')
@@ -124,7 +134,7 @@ let recursiveRouterAddress = (pages, relativePath, display, addressList) => {
 			// 相对路径
 			d.filePath = directory + '/' + d.name + '.vue'
 			// 存储地址
-			// 过滤空路由情况
+			// 过滤空路由, 刷新路由
 			if ((!d.children || d.children.length === 0)
 				|| (!d.template || d.template !== 'empty_route') ) {
 				addressList.push({lazy: true, note: note, ...d})
@@ -153,9 +163,10 @@ let recursiveRouterTable = (pages, routes) => {
 			}
 			if (d.children && d.children.length > 0) {
 				route.component = '@' + (d.template || 'empty_route') + '@'
+				let child = d.children[0].name === 'back_route' ? d.children[1] : d.children[0]
 				route.children = [
 					{
-						path: '/', redirect: d.children[0].path || d.children[0].name,
+						path: '/', redirect: child.path || child.name,
 					},
 				]
 				// 递归
@@ -271,6 +282,10 @@ deleteFileAll(absolutePath, ['.gitkeep'])
 generatePage(pages, absolutePath)
 // 补充空路由
 copyFile(tpl.empty_route + '', absolutePath + '/empty_route.vue')
+// 补充刷新路由
+copyFile(tpl.back_route + '', absolutePath + '/back_route.vue')
+// 补充保持文件夹提交状态
+copyFile(tpl.gitkeep + '', absolutePath + '/.gitkeep')
 
 // 生成路由地址 & 生成路由表
 generateRouter(pages, '@/views')

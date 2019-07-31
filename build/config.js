@@ -61,6 +61,9 @@ module.exports = {
 			path: '/main', name: "main", display: "主页面", directory: '', template: "main", lazy: false,
 			children: [
 				{
+					name: 'back_route', template: 'back_route'
+				},
+				{
 					name: "dashboard", display: "仪表盘", template: "empty",
 					permission: ["insert", "update", "delete", "select", "export", "import"],
 				},

@@ -20,7 +20,7 @@
     "element-resize-detector": "^1.1.14",
     "element-ui": "^2.10.0",
     "moment": "^2.22.2",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.13.1",
     "numeral": "^2.0.6",
     "store": "^2.0.12",
     "vue": "^2.6.10",
@@ -45,7 +45,7 @@
     "koa-send": "^4.1.0",
     "koa-static": "^3.0.0",
     "koa2-history-api-fallback": "0.0.5",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.11.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"
